@@ -11,11 +11,10 @@ import (
 
 	"github.com/concourse/concourse/atc"
 	"github.com/concourse/concourse/go-concourse/concourse/internal"
-	"github.com/tedsuo/rata"
 )
 
 func (team *team) PipelineConfig(pipelineName string) (atc.Config, string, bool, error) {
-	params := rata.Params{
+	params := map[string]string{
 		"pipeline_name": pipelineName,
 		"team_name":     team.name,
 	}
@@ -56,7 +55,7 @@ type setConfigResponse struct {
 }
 
 func (team *team) CreateOrUpdatePipelineConfig(pipelineName string, configVersion string, passedConfig []byte, checkCredentials bool) (bool, bool, []ConfigWarning, error) {
-	params := rata.Params{
+	params := map[string]string{
 		"pipeline_name": pipelineName,
 		"team_name":     team.name,
 	}

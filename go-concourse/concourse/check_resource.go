@@ -7,12 +7,11 @@ import (
 
 	"github.com/concourse/concourse/atc"
 	"github.com/concourse/concourse/go-concourse/concourse/internal"
-	"github.com/tedsuo/rata"
 )
 
 func (team *team) CheckResource(pipelineName string, resourceName string, version atc.Version) (atc.Check, bool, error) {
 
-	params := rata.Params{
+	params := map[string]string{
 		"pipeline_name": pipelineName,
 		"resource_name": resourceName,
 		"team_name":     team.name,

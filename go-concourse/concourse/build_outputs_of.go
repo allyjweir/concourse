@@ -5,11 +5,10 @@ import (
 
 	"github.com/concourse/concourse/atc"
 	"github.com/concourse/concourse/go-concourse/concourse/internal"
-	"github.com/tedsuo/rata"
 )
 
 func (team *team) BuildsWithVersionAsOutput(pipelineName string, resourceName string, resourceVersionID int) ([]atc.Build, bool, error) {
-	params := rata.Params{
+	params := map[string]string{
 		"team_name":                  team.name,
 		"pipeline_name":              pipelineName,
 		"resource_name":              resourceName,

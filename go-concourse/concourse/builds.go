@@ -8,7 +8,6 @@ import (
 
 	"github.com/concourse/concourse/atc"
 	"github.com/concourse/concourse/go-concourse/concourse/internal"
-	"github.com/tedsuo/rata"
 )
 
 func (team *team) CreateBuild(plan atc.Plan) (atc.Build, error) {
@@ -22,7 +21,7 @@ func (team *team) CreateBuild(plan atc.Plan) (atc.Build, error) {
 	err = team.connection.Send(internal.Request{
 		RequestName: atc.CreateBuild,
 		Body:        buffer,
-		Params: rata.Params{
+		Params: map[string]string{
 			"team_name": team.Name(),
 		},
 		Header: http.Header{
@@ -36,7 +35,7 @@ func (team *team) CreateBuild(plan atc.Plan) (atc.Build, error) {
 }
 
 func (team *team) CreateJobBuild(pipelineName string, jobName string) (atc.Build, error) {
-	params := rata.Params{
+	params := map[string]string{
 		"job_name":      jobName,
 		"pipeline_name": pipelineName,
 		"team_name":     team.name,
@@ -54,7 +53,7 @@ func (team *team) CreateJobBuild(pipelineName string, jobName string) (atc.Build
 }
 
 func (team *team) RerunJobBuild(pipelineName string, jobName string, buildName string) (atc.Build, error) {
-	params := rata.Params{
+	params := map[string]string{
 		"build_name":    buildName,
 		"job_name":      jobName,
 		"pipeline_name": pipelineName,
@@ -73,7 +72,7 @@ func (team *team) RerunJobBuild(pipelineName string, jobName string, buildName s
 }
 
 func (team *team) JobBuild(pipelineName, jobName, buildName string) (atc.Build, bool, error) {
-	params := rata.Params{
+	params := map[string]string{
 		"job_name":      jobName,
 		"build_name":    buildName,
 		"pipeline_name": pipelineName,
@@ -99,7 +98,7 @@ func (team *team) JobBuild(pipelineName, jobName, buildName string) (atc.Build, 
 }
 
 func (client *client) Build(buildID string) (atc.Build, bool, error) {
-	params := rata.Params{
+	params := map[string]string{
 		"build_id": buildID,
 	}
 
@@ -147,7 +146,7 @@ func (client *client) Builds(page Page) ([]atc.Build, Pagination, error) {
 }
 
 func (client *client) AbortBuild(buildID string) error {
-	params := rata.Params{
+	params := map[string]string{
 		"build_id": buildID,
 	}
 
@@ -162,7 +161,7 @@ func (team *team) Builds(page Page) ([]atc.Build, Pagination, error) {
 
 	headers := http.Header{}
 
-	params := rata.Params{
+	params := map[string]string{
 		"team_name": team.name,
 	}
 
@@ -189,7 +188,7 @@ func (team *team) Builds(page Page) ([]atc.Build, Pagination, error) {
 }
 
 func (client *client) ListBuildArtifacts(buildID string) ([]atc.WorkerArtifact, error) {
-	params := rata.Params{
+	params := map[string]string{
 		"build_id": buildID,
 	}
 
