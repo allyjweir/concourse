@@ -17,7 +17,6 @@ import (
 	"github.com/concourse/concourse/fly/pty"
 	"github.com/concourse/concourse/fly/rc"
 	"github.com/concourse/concourse/go-concourse/concourse"
-	"github.com/tedsuo/rata"
 	"github.com/vito/go-interact/interact"
 )
 
@@ -155,7 +154,7 @@ func (command *HijackCommand) Execute([]string) error {
 
 	privileged := true
 
-	reqGenerator := rata.NewRequestGenerator(target.URL(), atc.Routes)
+	endpoint := atc.NewEndpoint(target.URL())
 
 	var ttySpec *atc.HijackTTYSpec
 	rows, cols, err := pty.Getsize(os.Stdout)
@@ -205,7 +204,7 @@ func (command *HijackCommand) Execute([]string) error {
 			Err: os.Stderr,
 		}
 
-		h := hijacker.New(target.TLSConfig(), reqGenerator, target.Token())
+		h := hijacker.New(target.TLSConfig(), endpoint, target.Token())
 
 		return h.Hijack(team.Name(), chosenContainer.ID, spec, io)
 	}()

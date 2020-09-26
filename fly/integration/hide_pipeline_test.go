@@ -11,7 +11,6 @@ import (
 	"github.com/onsi/gomega/gbytes"
 	"github.com/onsi/gomega/gexec"
 	"github.com/onsi/gomega/ghttp"
-	"github.com/tedsuo/rata"
 )
 
 var _ = Describe("Fly CLI", func() {
@@ -22,7 +21,7 @@ var _ = Describe("Fly CLI", func() {
 				err  error
 			)
 			BeforeEach(func() {
-				path, err = atc.Routes.CreatePathForRoute(atc.HidePipeline, rata.Params{"pipeline_name": "awesome-pipeline", "team_name": teamName})
+				path, err = atc.CreatePathForRoute(atc.HidePipeline, map[string]string{"pipeline_name": "awesome-pipeline", "team_name": teamName})
 				Expect(err).NotTo(HaveOccurred())
 			})
 
@@ -88,7 +87,7 @@ var _ = Describe("Fly CLI", func() {
 				err  error
 			)
 			BeforeEach(func() {
-				path, err = atc.Routes.CreatePathForRoute(atc.HidePipeline, rata.Params{"pipeline_name": "awesome-pipeline", "team_name": teamName})
+				path, err = atc.CreatePathForRoute(atc.HidePipeline, map[string]string{"pipeline_name": "awesome-pipeline", "team_name": teamName})
 				Expect(err).NotTo(HaveOccurred())
 			})
 

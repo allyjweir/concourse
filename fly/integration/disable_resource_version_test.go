@@ -10,7 +10,6 @@ import (
 	. "github.com/onsi/gomega"
 	"github.com/onsi/gomega/gbytes"
 	"github.com/onsi/gomega/ghttp"
-	"github.com/tedsuo/rata"
 
 	"github.com/onsi/gomega/gexec"
 )
@@ -50,14 +49,14 @@ var _ = Describe("Fly CLI", func() {
 		Context("when the resource is specified", func() {
 			Context("when the resource version json string is specified", func() {
 				BeforeEach(func() {
-					getPath, err = atc.Routes.CreatePathForRoute(atc.ListResourceVersions, rata.Params{
+					getPath, err = atc.CreatePathForRoute(atc.ListResourceVersions, map[string]string{
 						"pipeline_name": pipelineName,
 						"team_name":     teamName,
 						"resource_name": resourceName,
 					})
 					Expect(err).NotTo(HaveOccurred())
 
-					disablePath, err = atc.Routes.CreatePathForRoute(atc.DisableResourceVersion, rata.Params{
+					disablePath, err = atc.CreatePathForRoute(atc.DisableResourceVersion, map[string]string{
 						"pipeline_name":              pipelineName,
 						"team_name":                  teamName,
 						"resource_name":              resourceName,
